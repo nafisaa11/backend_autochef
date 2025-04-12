@@ -39,6 +39,17 @@ class ResepMakananController extends Controller
         ]);
     }
 
+    public function rekomendasi()
+    {
+        $resep = ResepMakanan::inRandomOrder()->limit(5)->get(); 
+
+        return response()->json([
+            'message' => count($resep) > 0 ? 'Rekomendasi resep berhasil diambil' : 'Tidak ada resep untuk direkomendasikan',
+            'data' => $resep
+        ]);
+    }
+
+
     public function show($id)
     {
         $resep = ResepMakanan::find($id);
