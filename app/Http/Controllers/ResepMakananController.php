@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -32,6 +33,10 @@ class ResepMakananController extends Controller
             }
         }
 
+        if ($request->has('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
         $data = $query->get();
         return response()->json([
             'message' => count($data) > 0 ? 'Resep ditemukan berdasarkan pencarian' : 'Tidak ada resep yang cocok',
@@ -39,9 +44,10 @@ class ResepMakananController extends Controller
         ]);
     }
 
+
     public function rekomendasi()
     {
-        $resep = ResepMakanan::inRandomOrder()->limit(5)->get(); 
+        $resep = ResepMakanan::inRandomOrder()->limit(5)->get();
 
         return response()->json([
             'message' => count($resep) > 0 ? 'Rekomendasi resep berhasil diambil' : 'Tidak ada resep untuk direkomendasikan',
