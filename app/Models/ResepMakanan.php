@@ -15,7 +15,7 @@ class ResepMakanan extends Model
     public $timestamps = false; // Matikan jika tabel tidak punya created_at & updated_at
 
     protected $fillable = [
-        'nama_resep', 'bahan', 'steps', 'gambar' // Kolom yang bisa diisi
+        'nama_resep', 'bahan', 'steps', 'gambar', 'kategori', 'negara', 'waktu', 'kalori', 'protein', 'karbohidrat' // Kolom yang bisa diisi
     ];
 
     public function toSearchableArray()
@@ -23,6 +23,7 @@ class ResepMakanan extends Model
         return [
             'nama_resep' => $this->nama_resep,
             'bahan' => $this->bahan,
+            'kategori' => $this->kategori,
         ];
     }
 
