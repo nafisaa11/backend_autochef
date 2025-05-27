@@ -5,40 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // function showregristrasi()
-    // {
-    //     return view('regristrasi');
-    // }
-
-    // function submitregristrasi(Request $request)
-    // {
-    //     $user = new User();
-    //     $user->name = $request->name;
-    //     $user->email = $request->email;
-    //     $user->password = bcrypt($request->password);
-    //     $user->save();
-    //     // dd($user);
-    //     return redirect()->route('login.show');
-    // }
-
-    // function showlogin()
-    // {
-    //     return view('login');
-    // }
-
-    // // function submitlogin(Request $request)
-    // // {
-    // //     $data = $request->only('email', 'password');
-
-    // //     if (Auth::attempt($data)) {
-    // //         $request->session()->regenerate();
-    // //         return redirect()->route('index');
-    // //     }
-    // // }
-
     public function register(Request $request) {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -51,8 +21,14 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
         ]);
+
+        $token = $user->createToken('auth-token-' . $user->id)->plainTextToken;
     
-        return response()->json(['message' => 'Akun berhasil dibuat', 'user' => $user]);
+        return response()->json([
+            'message' => 'Akun berhasil dibuat', 
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
     
     public function login(Request $request) {
@@ -61,7 +37,14 @@ class AuthController extends Controller
         }
     
         $user = Auth::user();
-        return response()->json(['message' => 'Login berhasil', 'user' => $user]);
+
+        $token = $user->createToken('api-auth-token-' . $user->id)->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login berhasil', 
+            'user' => $user,
+            'token' => $token   
+        ], 200);
     }
     
 

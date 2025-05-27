@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
 class ResepMakanan extends Model
@@ -15,26 +16,31 @@ class ResepMakanan extends Model
     public $timestamps = false; // Matikan jika tabel tidak punya created_at & updated_at
 
     protected $fillable = [
-        'nama_resep', 'bahan', 'steps', 'gambar', 'kategori', 'negara', 'waktu', 'kalori', 'protein', 'karbohidrat' // Kolom yang bisa diisi
+        'nama_resep', 'bahan', 'steps', 'gambar', 'kategori', 'negara', 'waktu', 'kalori', 'protein', 'karbohidrat' 
     ];
 
     public function toSearchableArray()
     {
         return [
+            'id' => $this->id,
             'nama_resep' => $this->nama_resep,
             'bahan' => $this->bahan,
             'kategori' => $this->kategori,
         ];
     }
 
-    public function getScoutKey()
-{
-    return $this->id;
-}
+//     public function getScoutKey()
+// {
+//     return $this->id;
+// }
 
-public function getScoutKeyName()
-{
-    return 'id';
-}
+// public function getScoutKeyName()
+// {
+//     return 'id';
+// }
 
+    public function favoritedByUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_favorites', 'resep_id', 'user_id');
+    }
 }
