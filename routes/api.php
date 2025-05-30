@@ -14,13 +14,17 @@ Route::get('/users', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/resepmakanan/rekomendasi', [ResepMakananController::class, 'rekomendasi']); 
+Route::get('/resepmakanan/rekomendasi', [ResepMakananController::class, 'rekomendasi']);
 Route::get('/resepmakanan/search', [ResepMakananController::class, 'search']);
-Route::get('/resepmakanan/{id}', [ResepMakananController::class, 'show']); 
+Route::get('/resepmakanan/{id}', [ResepMakananController::class, 'show']);
 Route::get('/resepmakanan', [ResepMakananController::class, 'index']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     // Route untuk Resep Favorit
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/resep/{resep}/favorite', [FavoriteController::class, 'store'])->name('favorites.store');
