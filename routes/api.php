@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\RecipeViewController;
+use App\Models\User;
 
 Route::get('/users', function () {
     return User::all();
@@ -31,4 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/resep/{resep}/favorite', [FavoriteController::class, 'destroy'])->name('favorites.destroy'); // Menggunakan metode DELETE yang lebih RESTful
     Route::get('/resep/{resep}/is-favorited', [FavoriteController::class, 'isFavorited'])->name('favorites.isFavorited');
 
+    // Route untuk log view resep
+    Route::post('/resepmakanan/log-view', [RecipeViewController::class, 'logView']);
+    Route::get('/user/view-history', [RecipeViewController::class, 'getUserViewHistory']);
 });

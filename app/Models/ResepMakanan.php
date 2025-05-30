@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 use Workbench\App\Models\User;
 
+
 class ResepMakanan extends Model
 {
     use HasFactory, Searchable;
